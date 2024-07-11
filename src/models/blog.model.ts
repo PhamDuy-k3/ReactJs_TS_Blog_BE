@@ -13,6 +13,9 @@ interface IBlog extends Document {
   createdAt: Date;
   updatedAt: Date;
   comments: mongoose.Schema.Types.ObjectId[];
+  approvalStatus: string; // Trạng thái phê duyệt
+  approvedBy?: mongoose.Schema.Types.ObjectId; // Người phê duyệt
+  approvedAt?: Date; // Thời gian phê duyệt
 }
 
 // Tạo schema Blog với các thuộc tính mới
@@ -66,6 +69,17 @@ const blogSchema: Schema<IBlog> = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Comment'
     }],
+    approvalStatus: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending',
+    },
+    approvedBy: {
+      type: String,
+    },
+    approvedAt: {
+      type: Date,
+    },
   },
   {
     toJSON: { getters: true },
@@ -81,6 +95,9 @@ blogSchema.methods.getSummary = function () {
     status: this.status,
     views: this.views,
     comments: this.comments,
+    approvalStatus: this.approvalStatus,
+    approvedBy: this.approvedBy,
+    approvedAt: this.approvedAt,
   };
 };
 
