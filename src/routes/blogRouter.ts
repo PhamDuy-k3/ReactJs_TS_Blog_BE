@@ -16,7 +16,7 @@ export const blogRouter = (app: Application): void => {
   
   router.put('/:blogId/blogApproval',(req, res) =>  blogController.blogApproval(req, res));
   
-  router.put('/updateBlog/:blogId',uploadImage.single("image"),(req, res) =>  blogController.updateBlog(req, res));
+  router.put('/:blogId',uploadImage.single("image"),(req, res) =>  blogController.updateBlog(req, res));
   
   router.delete("/:blogId", (req, res) => blogController.delete(req, res));
   
